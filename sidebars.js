@@ -8,7 +8,6 @@ module.exports = {
         'install/quickstart',
         'install/requirements',
         'install/configuration',
-        'install/ha',
         'install/methods',
         'install/containerd_registry_configuration',
         'install/airgap',
@@ -44,9 +43,17 @@ module.exports = {
         'security/token',
       ],
     },
+    {
+      type: 'category',
+      label: 'Datastore',
+      items: [
+        'datastore/backup_restore',
+        'datastore/overview',
+        "datastore/ha"
+      ],
+    },
     'architecture',
     'cluster_access',
-    'backup_restore',
     {
       type: 'category',
       label: 'Networking',
