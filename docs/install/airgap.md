@@ -185,10 +185,11 @@ If running on an air-gapped node with SELinux enabled, you must manually install
 The [RPM install method](https://docs.rke2.io/install/methods#rpm) assumes network access to the package repository. On an air-gapped host you must obtain the RPM (and its dependencies) on a machine that can reach the internet, copy the packages to the offline node, then install them with `rpm`/`dnf`/`yum` from the local files. The rke2-selinux RPM requires these OS packages to already be available offline:
 
     * container-selinux
-    * iptables-nft
-    * libnftnl
+    * selinux-policy-base
     * policycoreutils
-    * selinux-policy
+    * libselinux-utils (Enterprise Linux) or selinux-tools (SUSE)
+
+See [Air-gapped and offline installs](../security/selinux.md#air-gapped-and-offline-installs) for how to download the policy and its dependencies, and [SELinux](../security/selinux.md) for the rest of the SELinux requirements.
 
 </details>
 
