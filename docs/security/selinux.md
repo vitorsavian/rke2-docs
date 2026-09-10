@@ -150,6 +150,7 @@ Replace `latest` with `stable` in both the repository name and the URL to track 
 
 * `container-selinux`
 * `selinux-policy-base`
+* `selinux-policy`
 * `policycoreutils`
 * `libselinux-utils` (Enterprise Linux) or `selinux-tools` (SUSE)
 

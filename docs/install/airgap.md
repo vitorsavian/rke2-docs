@@ -186,8 +186,14 @@ The [RPM install method](https://docs.rke2.io/install/methods#rpm) assumes netwo
 
     * container-selinux
     * selinux-policy-base
+    * selinux-policy
     * policycoreutils
     * libselinux-utils (Enterprise Linux) or selinux-tools (SUSE)
+
+If you are also installing RKE2 itself from RPM, `rke2-common` requires `iptables`, so stage those packages as well:
+
+    * iptables-nft
+    * libnftnl
 
 See [Air-gapped and offline installs](../security/selinux.md#air-gapped-and-offline-installs) for how to download the policy and its dependencies, and [SELinux](../security/selinux.md) for the rest of the SELinux requirements.
 
