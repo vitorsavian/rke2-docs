@@ -188,7 +188,7 @@ The [RPM install method](https://docs.rke2.io/install/methods#rpm) assumes netwo
     * selinux-policy-base
     * selinux-policy
     * policycoreutils
-    * libselinux-utils (Enterprise Linux) or selinux-tools (SUSE)
+    * selinux-tools (SUSE) or libselinux-utils (Enterprise Linux)
 
 If you are also installing RKE2 itself from RPM, `rke2-common` requires `iptables`, so stage those packages as well:
 

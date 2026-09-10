@@ -2,7 +2,7 @@
 title: SELinux
 ---
 
-RKE2 is compatible with SELinux-enabled systems, and running with SELinux in `Enforcing` mode is a supported configuration on the distributions where it is the default: RHEL and derivatives (CentOS, Rocky, Alma, Oracle Linux, Amazon Linux) and SUSE Linux Enterprise Server, SLE Micro and MicroOS.
+RKE2 is compatible with SELinux-enabled systems, and running with SELinux in `Enforcing` mode is a supported configuration on the distributions where it is the default: SUSE Linux Enterprise Server, SLE Micro and MicroOS, and RHEL and its derivatives (CentOS, Rocky, Alma, Oracle Linux, Amazon Linux).
 
 Two independent things must be true on **every** node — servers and agents alike — for RKE2 to work on an `Enforcing` node:
 
@@ -65,25 +65,7 @@ If it shows `unconfined_service_t` instead, the policy is either not installed o
 The policy is not tied to a particular RKE2 minor version — a single `rke2-selinux` release covers all supported RKE2 versions on that distribution.
 
 <Tabs groupId="selinux-distro" queryString>
-<TabItem value="Enterprise Linux 8/9/10" default>
-
-```bash
-export LINUX_MAJOR=9 # or 8 or 10
-cat << EOF > /etc/yum.repos.d/rancher-rke2-common-latest.repo
-[rancher-rke2-common-latest]
-name=Rancher RKE2 Common Latest
-baseurl=https://rpm.rancher.io/rke2/latest/common/centos/${LINUX_MAJOR}/noarch
-enabled=1
-gpgcheck=1
-repo_gpgcheck=1
-gpgkey=https://rpm.rancher.io/public.key
-EOF
-
-yum -y install rke2-selinux
-```
-
-</TabItem>
-<TabItem value="SLES 16">
+<TabItem value="SLES 16" default>
 
 ```bash
 cat << EOF > /etc/zypp/repos.d/rancher-rke2-common-latest.repo
@@ -140,6 +122,24 @@ reboot
 ```
 
 </TabItem>
+<TabItem value="Enterprise Linux 8/9/10">
+
+```bash
+export LINUX_MAJOR=9 # or 8 or 10
+cat << EOF > /etc/yum.repos.d/rancher-rke2-common-latest.repo
+[rancher-rke2-common-latest]
+name=Rancher RKE2 Common Latest
+baseurl=https://rpm.rancher.io/rke2/latest/common/centos/${LINUX_MAJOR}/noarch
+enabled=1
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://rpm.rancher.io/public.key
+EOF
+
+yum -y install rke2-selinux
+```
+
+</TabItem>
 </Tabs>
 
 Replace `latest` with `stable` in both the repository name and the URL to track the stable channel instead. The `testing` channel is served from `rpm-testing.rancher.io`.
@@ -152,7 +152,7 @@ Replace `latest` with `stable` in both the repository name and the URL to track 
 * `selinux-policy-base`
 * `selinux-policy`
 * `policycoreutils`
-* `libselinux-utils` (Enterprise Linux) or `selinux-tools` (SUSE)
+* `selinux-tools` (SUSE) or `libselinux-utils` (Enterprise Linux)
 
 `container-selinux` is the important one: `rke2-selinux` builds on top of it, and a `container-selinux` that is too old for the `rke2-selinux` release you are installing will cause the install to fail.
 
@@ -160,31 +160,31 @@ Replace `latest` with `stable` in both the repository name and the URL to track 
 
 There is no repository to reach from an air-gapped node, so fetch the RPM and its dependencies on a machine that can reach the internet and copy them across.
 
-The simplest source for the policy alone is the [rke2-selinux releases page](https://github.com/rancher/rke2-selinux/releases/latest), which publishes one `noarch` RPM per distribution — `.el8`, `.el9`, `.el10`, `.sle` (MicroOS) and `.slemicro` (SLES / SLE Micro). Pick the one matching your OS:
+The simplest source for the policy alone is the [rke2-selinux releases page](https://github.com/rancher/rke2-selinux/releases/latest), which publishes one `noarch` RPM per distribution — `.slemicro` (SLES / SLE Micro), `.sle` (MicroOS), `.el8`, `.el9` and `.el10`. Pick the one matching your OS:
 
 ```bash
 # on a machine with network access
-curl -sfLO https://github.com/rancher/rke2-selinux/releases/download/v0.23.stable.1/rke2-selinux-0.23-1.el9.noarch.rpm
+curl -sfLO https://github.com/rancher/rke2-selinux/releases/download/v0.23.stable.1/rke2-selinux-0.23-1.slemicro.noarch.rpm
 ```
 
 To pull the policy together with everything it depends on, use your package manager's download-only mode on a connected machine **running the same OS version**:
 
 ```bash
-# Enterprise Linux
-dnf download --resolve --alldeps --destdir /root/rke2-selinux-rpms rke2-selinux
-
 # SUSE
 zypper --pkg-cache-dir /root/rke2-selinux-rpms install --download-only -y rke2-selinux
+
+# Enterprise Linux
+dnf download --resolve --alldeps --destdir /root/rke2-selinux-rpms rke2-selinux
 ```
 
 Copy the directory to each air-gapped node and install from the local files, before installing RKE2:
 
 ```bash
-# Enterprise Linux
-yum -y install /root/rke2-selinux-rpms/*.rpm
-
 # SUSE
 zypper --no-gpg-checks install -y /root/rke2-selinux-rpms/*.rpm
+
+# Enterprise Linux
+yum -y install /root/rke2-selinux-rpms/*.rpm
 ```
 
 See the [air-gap install documentation](../install/airgap.md) for the rest of the offline install.
