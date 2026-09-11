@@ -4,7 +4,7 @@ title: SELinux
 
 RKE2 is compatible with SELinux-enabled systems, and running with SELinux in `Enforcing` mode is a supported configuration on the distributions where it is the default: SUSE Linux Enterprise Server, SLE Micro and MicroOS, and RHEL and its derivatives (CentOS, Rocky, Alma, Oracle Linux, Amazon Linux).
 
-Two independent things must be true on **every** node — servers and agents alike — for RKE2 to work on an `Enforcing` node:
+There are two independent requirements that must be fulfilled on **every** node — servers and agents alike — for RKE2 to work on an `Enforcing` node:
 
 1. The `rke2-selinux` policy module is installed and loaded on the host.
 2. RKE2 itself is started with SELinux support enabled (`selinux: true` in the config file, or `RKE2_SELINUX=true` in the environment).
