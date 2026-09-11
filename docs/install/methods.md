@@ -173,7 +173,7 @@ reboot
 Replace `rke2-server` with `rke2-agent` on agent nodes.
 
 </TabItem>
-<TabItem value="Enterprise Linux 8/9/10">
+<TabItem value="RHEL 8/9/10">
 
 In order to use the RPM repository, on a CentOS or RHEL system, run the following bash snippet:
 

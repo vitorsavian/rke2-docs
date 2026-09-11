@@ -122,7 +122,7 @@ reboot
 ```
 
 </TabItem>
-<TabItem value="Enterprise Linux 8/9/10">
+<TabItem value="RHEL 8/9/10">
 
 ```bash
 export LINUX_MAJOR=9 # or 8 or 10
@@ -152,7 +152,7 @@ Replace `latest` with `stable` in both the repository name and the URL to track 
 * `selinux-policy-base`
 * `selinux-policy`
 * `policycoreutils`
-* `selinux-tools` (SUSE) or `libselinux-utils` (Enterprise Linux)
+* `selinux-tools` (SUSE) or `libselinux-utils` (RHEL)
 
 `container-selinux` is the important one: `rke2-selinux` builds on top of it, and a `container-selinux` that is too old for the `rke2-selinux` release you are installing will cause the install to fail.
 
@@ -173,7 +173,7 @@ To pull the policy together with everything it depends on, use your package mana
 # SUSE
 zypper --pkg-cache-dir /root/rke2-selinux-rpms install --download-only -y rke2-selinux
 
-# Enterprise Linux
+# RHEL
 dnf download --resolve --alldeps --destdir /root/rke2-selinux-rpms rke2-selinux
 ```
 
@@ -183,7 +183,7 @@ Copy the directory to each air-gapped node and install from the local files, bef
 # SUSE
 zypper --no-gpg-checks install -y /root/rke2-selinux-rpms/*.rpm
 
-# Enterprise Linux
+# RHEL
 yum -y install /root/rke2-selinux-rpms/*.rpm
 ```
 
